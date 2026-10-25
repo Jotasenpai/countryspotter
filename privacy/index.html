@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070d1a">
+<title>Countryspotter</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Pantalla 1: mundo -->
+<section id="screen-world" class="screen active">
+  <header class="world-head">
+    <label class="lang-pick" title="Idioma" data-i18n-title="language"><span aria-hidden="true">🌐</span><select id="lang-select" aria-label="Idioma"></select></label>
+    <h1 data-i18n="appName">Countryspotter</h1>
+    <div class="mode-switch" role="tablist">
+      <button class="mode-btn active" data-mode="continent" role="tab" data-i18n="modeContinent">Por continente</button>
+      <button class="mode-btn" data-mode="country" role="tab" data-i18n="modeCountry">Por país</button>
+    </div>
+    <p id="world-hint">Elige un continente y encuentra todos sus países en el mapa.</p>
+  </header>
+  <div class="world-wrap">
+    <svg id="world-map" class="map"></svg>
+  </div>
+  <nav id="zone-cards" class="zone-cards"></nav>
+</section>
+
+<!-- Pantalla 2: juego -->
+<section id="screen-game" class="screen">
+  <header class="topbar">
+    <button id="btn-exit" class="btn ghost">&larr; Continentes</button>
+    <h2 id="zone-title"></h2>
+    <div class="stats">
+      <span class="stat ok" title="Aciertos"><b id="st-ok">0</b>/<span id="st-total">0</span> <span data-i18n="statHits">aciertos</span></span>
+      <span class="stat bad" title="Fallos"><b id="st-bad">0</b> <span data-i18n="statMisses">fallos</span></span>
+      <span class="stat skip" title="Pasados"><b id="st-skip">0</b> <span data-i18n="statSkips">pasados</span></span>
+      <span class="stat time" id="st-time">0:00</span>
+    </div>
+    <div class="stats" id="pick-info" hidden><span class="stat" data-i18n="pickHover">Pasa el ratón y pulsa un país</span></div>
+  </header>
+
+  <div class="map-wrap" id="map-wrap">
+    <svg id="game-map" class="map"></svg>
+    <div class="zoom-ctrl">
+      <button id="z-in" class="btn round" title="Acercar" data-i18n-title="zoomIn">+</button>
+      <button id="z-out" class="btn round" title="Alejar" data-i18n-title="zoomOut">&minus;</button>
+      <button id="z-reset" class="btn round" title="Ver todo" data-i18n-title="zoomReset">&#8634;</button>
+    </div>
+    <div class="target-card" id="prompt">
+      <div class="target-text"><span class="target-label" id="target-label">Encuentra</span><span id="target-name"></span></div>
+      <select id="pick-select" class="pick-select" hidden aria-label="Elegir país"></select>
+      <button id="btn-play" class="btn" data-i18n="play" hidden>Jugar ›</button>
+      <button id="btn-skip" class="btn" data-i18n="skip">Pasar ›</button>
+    </div>
+    <div id="toast" class="toast"></div>
+    <div id="tooltip" class="tooltip" hidden></div>
+    <div id="loading" class="loading" hidden data-i18n="loading">Cargando mapa…</div>
+  </div>
+
+  <footer class="prompt review" id="review-bar" hidden>
+    <div class="prompt-text"><span class="prompt-label" data-i18n="review">Revisión</span><span id="review-hint">Pulsa un país para ver su ficha</span></div>
+    <div class="row">
+      <button id="btn-summary" class="btn ghost" data-i18n="summary">Resumen</button>
+      <button id="btn-retry2" class="btn ghost" data-i18n="retry">Reintentar</button>
+      <button id="btn-exit2" class="btn" data-i18n="exit">Salir</button>
+    </div>
+  </footer>
+</section>
+
+<!-- Ficha de país -->
+<div id="modal-country" class="modal" hidden>
+  <div class="card country-card" role="dialog" aria-modal="true">
+    <button class="close" data-close aria-label="Cerrar">&times;</button>
+    <figure id="cc-photo">
+      <img alt="">
+      <figcaption></figcaption>
+    </figure>
+    <div class="cc-body">
+      <div class="cc-head">
+        <img id="cc-flag" alt="">
+        <div>
+          <span class="cc-kicker" id="cc-kicker">¡Correcto!</span>
+          <h3 id="cc-name"></h3>
+        </div>
+      </div>
+      <p class="cc-capital"><span data-i18n="capital">Capital</span><b id="cc-capital"></b></p>
+      <p class="cc-fact" id="cc-fact"></p>
+      <p class="cc-dato" id="cc-dato"></p>
+      <button class="btn wide" data-close id="cc-continue">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Resumen -->
+<div id="modal-summary" class="modal" hidden>
+  <div class="card summary-card" role="dialog" aria-modal="true">
+    <button class="close" data-close aria-label="Cerrar">&times;</button>
+    <span class="cc-kicker" data-i18n="mapDone">¡Mapa completado!</span>
+    <h3 id="sum-title"></h3>
+    <div class="sum-grid">
+      <div><b id="sum-ok"></b><span id="sum-unit">países</span></div>
+      <div><b id="sum-first"></b><span data-i18n="sumFirst">a la primera</span></div>
+      <div><b id="sum-bad"></b><span data-i18n="sumMisses">fallos</span></div>
+      <div><b id="sum-skip"></b><span data-i18n="sumSkips">pasados</span></div>
+      <div><b id="sum-time"></b><span data-i18n="sumTime">tiempo</span></div>
+      <div><b id="sum-acc"></b><span data-i18n="sumAcc">precisión</span></div>
+    </div>
+    <h4 data-i18n="hardest">Los que más te costaron</h4>
+    <ol id="sum-hard" class="sum-hard"></ol>
+    <div class="row end">
+      <button class="btn ghost" id="btn-review" data-i18n="reviewMap">Revisar el mapa</button>
+      <button class="btn ghost" id="btn-retry" data-i18n="retry">Reintentar</button>
+      <button class="btn" id="btn-exit3" data-i18n="exit">Salir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmación de salida -->
+<div id="modal-confirm" class="modal" hidden>
+  <div class="card confirm-card" role="dialog" aria-modal="true">
+    <h3 data-i18n="confirmTitle">¿Salir de la partida?</h3>
+    <p data-i18n="confirmText">Perderás el progreso. Si vuelves, empezarás desde cero.</p>
+    <div class="row end">
+      <button class="btn ghost" data-close data-i18n="keepPlaying">Seguir jugando</button>
+      <button class="btn danger" id="btn-confirm-exit" data-i18n="exit">Salir</button>
+    </div>
+  </div>
+</div>
+
+<script src="lib/d3.min.js"></script>
+<script src="lib/topojson-client.min.js"></script>
+<script src="data/world.js"></script>
+<script src="data/countries.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
