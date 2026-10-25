@@ -2,137 +2,79 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#070d1a">
-<title>Countryspotter</title>
-<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countryspotter — Política de privacidad / Privacy Policy</title>
+<style>
+  :root { color-scheme: light dark; --bg: #ffffff; --text: #1b2333; --muted: #5b6577; --accent: #2f6fde; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #070d1a; --text: #eef3ff; --muted: #93a3c2; --accent: #7fb1ff; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 21px; margin: 40px 0 8px; border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent); padding-top: 28px; }
+  h3 { font-size: 17px; margin: 22px 0 4px; }
+  p, li { color: var(--text); }
+  .muted { color: var(--muted); font-size: 14px; }
+  a { color: var(--accent); }
+  nav a { margin-right: 14px; }
+</style>
 </head>
 <body>
+<main>
+  <h1>Countryspotter</h1>
+  <p class="muted">Última actualización / Last updated: 25-10-2026</p>
+  <nav><a href="#es">Español</a><a href="#en">English</a></nav>
 
-<!-- Pantalla 1: mundo -->
-<section id="screen-world" class="screen active">
-  <header class="world-head">
-    <label class="lang-pick" title="Idioma" data-i18n-title="language"><span aria-hidden="true">🌐</span><select id="lang-select" aria-label="Idioma"></select></label>
-    <h1 data-i18n="appName">Countryspotter</h1>
-    <div class="mode-switch" role="tablist">
-      <button class="mode-btn active" data-mode="continent" role="tab" data-i18n="modeContinent">Por continente</button>
-      <button class="mode-btn" data-mode="country" role="tab" data-i18n="modeCountry">Por país</button>
-    </div>
-    <p id="world-hint">Elige un continente y encuentra todos sus países en el mapa.</p>
-  </header>
-  <div class="world-wrap">
-    <svg id="world-map" class="map"></svg>
-  </div>
-  <nav id="zone-cards" class="zone-cards"></nav>
-</section>
+  <section id="es" lang="es">
+    <h2>Política de privacidad</h2>
+    <p>Countryspotter es un juego de geografía para encontrar países y regiones en un mapa. Esta política explica qué datos trata la aplicación (Android) y la versión web.</p>
 
-<!-- Pantalla 2: juego -->
-<section id="screen-game" class="screen">
-  <header class="topbar">
-    <button id="btn-exit" class="btn ghost">&larr; Continentes</button>
-    <h2 id="zone-title"></h2>
-    <div class="stats">
-      <span class="stat ok" title="Aciertos"><b id="st-ok">0</b>/<span id="st-total">0</span> <span data-i18n="statHits">aciertos</span></span>
-      <span class="stat bad" title="Fallos"><b id="st-bad">0</b> <span data-i18n="statMisses">fallos</span></span>
-      <span class="stat skip" title="Pasados"><b id="st-skip">0</b> <span data-i18n="statSkips">pasados</span></span>
-      <span class="stat time" id="st-time">0:00</span>
-    </div>
-    <div class="stats" id="pick-info" hidden><span class="stat" data-i18n="pickHover">Pasa el ratón y pulsa un país</span></div>
-  </header>
+    <h3>Datos que recogemos</h3>
+    <p><strong>Ninguno.</strong> Countryspotter no recoge, almacena ni comparte datos personales. No pide registro ni cuenta, no usa publicidad, no incluye herramientas de análisis ni de seguimiento y no accede a tu ubicación, contactos, cámara, micrófono ni archivos.</p>
 
-  <div class="map-wrap" id="map-wrap">
-    <svg id="game-map" class="map"></svg>
-    <div class="zoom-ctrl">
-      <button id="z-in" class="btn round" title="Acercar" data-i18n-title="zoomIn">+</button>
-      <button id="z-out" class="btn round" title="Alejar" data-i18n-title="zoomOut">&minus;</button>
-      <button id="z-reset" class="btn round" title="Ver todo" data-i18n-title="zoomReset">&#8634;</button>
-    </div>
-    <div class="target-card" id="prompt">
-      <div class="target-text"><span class="target-label" id="target-label">Encuentra</span><span id="target-name"></span></div>
-      <select id="pick-select" class="pick-select" hidden aria-label="Elegir país"></select>
-      <button id="btn-play" class="btn" data-i18n="play" hidden>Jugar ›</button>
-      <button id="btn-skip" class="btn" data-i18n="skip">Pasar ›</button>
-    </div>
-    <div id="toast" class="toast"></div>
-    <div id="tooltip" class="tooltip" hidden></div>
-    <div id="loading" class="loading" hidden data-i18n="loading">Cargando mapa…</div>
-  </div>
+    <h3>Datos guardados en tu dispositivo</h3>
+    <p>La aplicación solo guarda en tu propio dispositivo el idioma que eliges, para recordarlo la próxima vez. Ese dato nunca sale de tu dispositivo y se borra al desinstalar la aplicación o borrar sus datos.</p>
 
-  <footer class="prompt review" id="review-bar" hidden>
-    <div class="prompt-text"><span class="prompt-label" data-i18n="review">Revisión</span><span id="review-hint">Pulsa un país para ver su ficha</span></div>
-    <div class="row">
-      <button id="btn-summary" class="btn ghost" data-i18n="summary">Resumen</button>
-      <button id="btn-retry2" class="btn ghost" data-i18n="retry">Reintentar</button>
-      <button id="btn-exit2" class="btn" data-i18n="exit">Salir</button>
-    </div>
-  </footer>
-</section>
+    <h3>Conexión a Internet</h3>
+    <p>El juego funciona sin conexión: mapas, textos y fotos van incluidos en la aplicación. Solo se usa Internet si pulsas el enlace de crédito de una foto, que abre la página de la imagen en Wikimedia Commons en tu navegador. Esa web tiene su propia política de privacidad.</p>
 
-<!-- Ficha de país -->
-<div id="modal-country" class="modal" hidden>
-  <div class="card country-card" role="dialog" aria-modal="true">
-    <button class="close" data-close aria-label="Cerrar">&times;</button>
-    <figure id="cc-photo">
-      <img alt="">
-      <figcaption></figcaption>
-    </figure>
-    <div class="cc-body">
-      <div class="cc-head">
-        <img id="cc-flag" alt="">
-        <div>
-          <span class="cc-kicker" id="cc-kicker">¡Correcto!</span>
-          <h3 id="cc-name"></h3>
-        </div>
-      </div>
-      <p class="cc-capital"><span data-i18n="capital">Capital</span><b id="cc-capital"></b></p>
-      <p class="cc-fact" id="cc-fact"></p>
-      <p class="cc-dato" id="cc-dato"></p>
-      <button class="btn wide" data-close id="cc-continue">Continuar</button>
-    </div>
-  </div>
-</div>
+    <h3>Menores</h3>
+    <p>Como no se recoge ningún dato, la aplicación no recoge información de menores.</p>
 
-<!-- Resumen -->
-<div id="modal-summary" class="modal" hidden>
-  <div class="card summary-card" role="dialog" aria-modal="true">
-    <button class="close" data-close aria-label="Cerrar">&times;</button>
-    <span class="cc-kicker" data-i18n="mapDone">¡Mapa completado!</span>
-    <h3 id="sum-title"></h3>
-    <div class="sum-grid">
-      <div><b id="sum-ok"></b><span id="sum-unit">países</span></div>
-      <div><b id="sum-first"></b><span data-i18n="sumFirst">a la primera</span></div>
-      <div><b id="sum-bad"></b><span data-i18n="sumMisses">fallos</span></div>
-      <div><b id="sum-skip"></b><span data-i18n="sumSkips">pasados</span></div>
-      <div><b id="sum-time"></b><span data-i18n="sumTime">tiempo</span></div>
-      <div><b id="sum-acc"></b><span data-i18n="sumAcc">precisión</span></div>
-    </div>
-    <h4 data-i18n="hardest">Los que más te costaron</h4>
-    <ol id="sum-hard" class="sum-hard"></ol>
-    <div class="row end">
-      <button class="btn ghost" id="btn-review" data-i18n="reviewMap">Revisar el mapa</button>
-      <button class="btn ghost" id="btn-retry" data-i18n="retry">Reintentar</button>
-      <button class="btn" id="btn-exit3" data-i18n="exit">Salir</button>
-    </div>
-  </div>
-</div>
+    <h3>Contenido de terceros</h3>
+    <p>Mapas de Natural Earth (dominio público). Fotografías de Wikimedia Commons, con su autor y licencia indicados en cada ficha. Banderas de flagcdn.com.</p>
 
-<!-- Confirmación de salida -->
-<div id="modal-confirm" class="modal" hidden>
-  <div class="card confirm-card" role="dialog" aria-modal="true">
-    <h3 data-i18n="confirmTitle">¿Salir de la partida?</h3>
-    <p data-i18n="confirmText">Perderás el progreso. Si vuelves, empezarás desde cero.</p>
-    <div class="row end">
-      <button class="btn ghost" data-close data-i18n="keepPlaying">Seguir jugando</button>
-      <button class="btn danger" id="btn-confirm-exit" data-i18n="exit">Salir</button>
-    </div>
-  </div>
-</div>
+    <h3>Cambios</h3>
+    <p>Si esta política cambia, publicaremos la nueva versión en esta misma página con su fecha de actualización.</p>
 
-<script src="lib/d3.min.js"></script>
-<script src="lib/topojson-client.min.js"></script>
-<script src="data/world.js"></script>
-<script src="data/countries.js"></script>
-<script src="js/i18n.js"></script>
-<script src="js/app.js"></script>
+    <h3>Contacto</h3>
+    <p>Para cualquier pregunta sobre privacidad: <a href="mailto:[TU_EMAIL_DE_CONTACTO]">[TU_EMAIL_DE_CONTACTO]</a></p>
+  </section>
+
+  <section id="en" lang="en">
+    <h2>Privacy Policy</h2>
+    <p>Countryspotter is a geography game in which you find countries and regions on a map. This policy explains what data the Android app and the web version handle.</p>
+
+    <h3>Data we collect</h3>
+    <p><strong>None.</strong> Countryspotter does not collect, store or share any personal data. It requires no sign-up or account, shows no ads, includes no analytics or tracking tools, and does not access your location, contacts, camera, microphone or files.</p>
+
+    <h3>Data stored on your device</h3>
+    <p>The app only stores, on your own device, the language you choose so it can remember it next time. This never leaves your device and is deleted when you uninstall the app or clear its data.</p>
+
+    <h3>Internet connection</h3>
+    <p>The game works offline: maps, texts and photos are included in the app. The internet is only used if you tap a photo's credit link, which opens the image page on Wikimedia Commons in your browser. That website has its own privacy policy.</p>
+
+    <h3>Children</h3>
+    <p>Since no data is collected, the app does not collect any information from children.</p>
+
+    <h3>Third-party content</h3>
+    <p>Maps from Natural Earth (public domain). Photos from Wikimedia Commons, with author and licence shown on each card. Flags from flagcdn.com.</p>
+
+    <h3>Changes</h3>
+    <p>If this policy changes, we will publish the new version on this page with its update date.</p>
+
+    <h3>Contact</h3>
+    <p>For any privacy question: <a href="mailto:[TU_EMAIL_DE_CONTACTO]">[TU_EMAIL_DE_CONTACTO]</a></p>
+  </section>
+</main>
 </body>
 </html>
